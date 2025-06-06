@@ -80,6 +80,22 @@ const prettierConfig = [
   },
 ];
 
+const myCustomConfig = [
+  {
+    name: 'my-custom-config',
+    rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/function-component-definition': [
+        'error',
+        {
+          namedComponents: 'function-declaration',
+          unnamedComponents: 'function-expression',
+        },
+      ],
+    },
+  },
+];
+
 export default [
   // Ignore .gitignore files/folder in eslint
   includeIgnoreFile(gitignorePath),
@@ -91,4 +107,6 @@ export default [
   ...typescriptConfig,
   // Prettier Config
   ...prettierConfig,
+  // My Custom Config
+  ...myCustomConfig,
 ];
