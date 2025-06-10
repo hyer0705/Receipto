@@ -12,6 +12,7 @@ import js from '@eslint/js';
 import { configs, plugins } from 'eslint-config-airbnb-extended';
 import { rules as prettierConfigRules } from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import importPlugin from 'eslint-plugin-import';
 
 export const projectRoot = path.resolve('.');
 export const gitignorePath = path.resolve(projectRoot, '.gitignore');
@@ -92,6 +93,20 @@ const myCustomConfig = [
           unnamedComponents: 'function-expression',
         },
       ],
+    },
+  },
+  {
+    name: 'import-plugin',
+    plugins: {
+      import: importPlugin,
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {},
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
+      },
     },
   },
 ];

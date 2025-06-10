@@ -1,5 +1,14 @@
+import AddPaymentHistory from './components/AddPaymentHistory';
+import Container from './components/Container';
+import Header from './components/Header';
+
 function App() {
-  return <h1>App Component~</h1>;
+  return (
+    <Container>
+      <Header />
+      <AddPaymentHistory />
+    </Container>
+  );
 }
 
 export default App;
