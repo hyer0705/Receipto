@@ -5,8 +5,26 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import type { Payment } from '@/types/payment';
+import { useEffect, useState } from 'react';
 
-function PaymentResult() {
+interface PaymentResultProps {
+  histories: Payment['histories'];
+  peopleCount: Payment['peopleCount'];
+}
+
+function PaymentResult({ histories, peopleCount }: PaymentResultProps) {
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const calculatedTotalAmount = histories.reduce(
+      (acc, curr) => acc + curr.amount,
+      0,
+    );
+
+    setTotalAmount(calculatedTotalAmount);
+  }, [histories]);
+
   return (
     <Card>
       <CardHeader>
@@ -22,11 +40,13 @@ function PaymentResult() {
           <div className="grid grid-cols-2 gap-3">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
               <p className="text-xs text-gray-600 mb-1">총 금액</p>
-              <p className="text-xl font-bold text-blue-600">20,000원</p>
+              <p className="text-xl font-bold text-blue-600">{totalAmount}원</p>
             </div>
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <p className="text-xs text-gray-600 mb-1">1인당 금액</p>
-              <p className="text-xl font-bold text-green-600">10,000원</p>
+              <p className="text-xl font-bold text-green-600">
+                {totalAmount / peopleCount}원
+              </p>
             </div>
           </div>
         </article>

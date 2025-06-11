@@ -51,7 +51,6 @@ function App() {
     date: undefined,
     histories: [],
     peopleCount: 0,
-    totalAmount: 0,
   });
 
   useEffect(() => {
@@ -69,7 +68,10 @@ function App() {
       <InputPaymentHistory dispatch={dispatch} />
       <PaymentHistory histories={payment.histories} dispatch={dispatch} />
       <InputPeopleCount dispatch={dispatch} />
-      <PaymentResult />
+      <PaymentResult
+        histories={payment.histories}
+        peopleCount={payment.peopleCount}
+      />
       <Button className="w-full h-12 text-base font-medium" size="lg">
         공유하기
       </Button>

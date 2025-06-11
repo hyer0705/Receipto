@@ -9,7 +9,6 @@ export interface Payment {
   date: Date | undefined;
   histories: PaymentHistory[];
   peopleCount: number;
-  totalAmount: number;
 }
 
 export type PaymentAction =
