@@ -14,13 +14,15 @@ function AddPaymentHistory() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>➕ 결제 내역 추가</CardTitle>
-        <CardDescription>
+        <CardTitle className="flex items-center gap-2 text-lg">
+          ➕ 결제 내역 추가
+        </CardTitle>
+        <CardDescription className="text-sm">
           모임에서 발생한 결제 내역을 기록하세요.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form>
+      <CardContent className="space-y-4">
+        <form className="space-y-4">
           <Label htmlFor="title">결제 항목</Label>
           <Input id="title" placeholder="예: 점심, 저녁, 카페" />
           <Label htmlFor="amount">금액</Label>
@@ -28,7 +30,7 @@ function AddPaymentHistory() {
         </form>
       </CardContent>
       <CardFooter>
-        <Button>결제 내역 추가</Button>
+        <Button className="w-full">결제 내역 추가</Button>
       </CardFooter>
     </Card>
   );
