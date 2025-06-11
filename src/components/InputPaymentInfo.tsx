@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useState } from 'react';
+import type { PaymentAction } from '@/types/payment';
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -23,9 +24,14 @@ function formatDate(date: Date | undefined) {
   });
 }
 
-function InputPaymentInfo() {
+interface InputPaymentInfoProps {
+  title: string;
+  date: Date | undefined;
+  dispatch: React.ActionDispatch<[action: PaymentAction]>;
+}
+
+function InputPaymentInfo({ title, date, dispatch }: InputPaymentInfoProps) {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(new Date('2025-06-11'));
 
   const [month, setMonth] = useState<Date | undefined>(date);
   const [value, setValue] = useState(formatDate(date));
@@ -39,7 +45,13 @@ function InputPaymentInfo() {
             id="title"
             placeholder="예: 6/20 서울 나들이"
             type="text"
-            required
+            value={title}
+            onChange={(e) => {
+              dispatch({
+                type: 'CHANGED_TITLE',
+                payment: { title: e.target.value },
+              });
+            }}
           />
           <Label htmlFor="date">날짜</Label>
           <div className="relative flex gap-2">
@@ -51,7 +63,10 @@ function InputPaymentInfo() {
                 const currentDate = new Date(e.target.value);
                 setValue(e.target.value);
 
-                setDate(currentDate);
+                dispatch({
+                  type: 'CHANGED_DATE',
+                  payment: { date: currentDate },
+                });
                 setMonth(currentDate);
               }}
               onKeyDown={(e) => {
@@ -85,7 +100,10 @@ function InputPaymentInfo() {
                   month={month}
                   onMonthChange={setMonth}
                   onSelect={(selectedDate) => {
-                    setDate(selectedDate);
+                    dispatch({
+                      type: 'CHANGED_DATE',
+                      payment: { date: selectedDate },
+                    });
                     setValue(formatDate(selectedDate));
                     setOpen(false);
                   }}

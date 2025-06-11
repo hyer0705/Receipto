@@ -1,3 +1,5 @@
+import { useEffect, useReducer } from 'react';
+
 import { Button } from '@/components/ui/button';
 import Container from './components/Container';
 import Header from './components/Header';
@@ -6,12 +8,66 @@ import PaymentHistory from './components/PaymentHistory';
 import PaymentResult from './components/PaymentResult';
 import InputPaymentInfo from './components/InputPaymentInfo';
 import InputPaymentHistory from './components/InputPaymentHistory';
+import type { Payment, PaymentAction } from './types/payment';
+
+function reducer(state: Payment, action: PaymentAction) {
+  const { type, payment } = action;
+  switch (type) {
+    case 'CHANGED_TITLE':
+      return {
+        ...state,
+        title: payment.title,
+      };
+    case 'CHANGED_DATE':
+      return {
+        ...state,
+        date: payment.date,
+      };
+    // case 'ADD_PAYMENT_HISTORY':
+    //   return {
+    //     ...state,
+    //     history: [...state.history, { ...action.history }],
+    //   };
+    // case 'DELETE_PAYMENT_HISTORY':
+    //   return {
+    //     ...state,
+    //     history:
+    //       state.history.filter(
+    //         (currentHistory) => currentHistory.id !== action.history.id,
+    //       )
+    //     ,
+    //   };
+    // case 'CHANGED_PEOPLE_COUNT':
+    //   return {
+    //     ...state,
+    //     peopleCount: action.peopleCount;
+    //   }
+    default:
+      return { ...state };
+  }
+}
 
 function App() {
+  const [payment, dispatch] = useReducer(reducer, {
+    title: '',
+    date: undefined,
+    history: [],
+    peopleCount: 0,
+    totalAmount: 0,
+  });
+
+  useEffect(() => {
+    console.log(payment);
+  }, [payment]);
+
   return (
     <Container>
       <Header />
-      <InputPaymentInfo />
+      <InputPaymentInfo
+        title={payment.title}
+        date={payment.date}
+        dispatch={dispatch}
+      />
       <InputPaymentHistory />
       <PaymentHistory />
       <InputPeopleCount />
