@@ -9,8 +9,19 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import type { PaymentAction } from '@/types/payment';
+import { useState } from 'react';
 
-function InputPaymentHistory() {
+interface InputPaymentHistoryProps {
+  dispatch: React.ActionDispatch<[action: PaymentAction]>;
+}
+
+function InputPaymentHistory({ dispatch }: InputPaymentHistoryProps) {
+  const [history, setHistory] = useState<{ content: string; amount: number }>({
+    content: '',
+    amount: 0,
+  });
+
   return (
     <Card>
       <CardHeader>
@@ -24,13 +35,45 @@ function InputPaymentHistory() {
       <CardContent className="space-y-4">
         <div className="space-y-4">
           <Label htmlFor="title">결제 항목</Label>
-          <Input id="title" placeholder="예: 점심, 저녁, 카페" />
+          <Input
+            id="title"
+            placeholder="예: 점심, 저녁, 카페"
+            value={history.content}
+            onChange={(e) =>
+              setHistory((prev) => ({ ...prev, content: e.target.value }))
+            }
+          />
           <Label htmlFor="amount">금액</Label>
-          <Input id="amount" type="number" placeholder="0" />
+          <Input
+            id="amount"
+            type="number"
+            placeholder="0"
+            value={history.amount}
+            onChange={(e) =>
+              setHistory((prev) => ({
+                ...prev,
+                amount: Number(e.target.value),
+              }))
+            }
+          />
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">결제 내역 추가</Button>
+        <Button
+          onClick={() => {
+            const { amount, content } = history;
+            dispatch({
+              type: 'ADD_PAYMENT_HISTORY',
+              payment: {
+                history: { id: Date.now().toString(), content, amount },
+              },
+            });
+            setHistory({ amount: 0, content: '' });
+          }}
+          className="w-full"
+        >
+          결제 내역 추가
+        </Button>
       </CardFooter>
     </Card>
   );

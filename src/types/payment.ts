@@ -1,5 +1,5 @@
 interface PaymentHistory {
-  id: number;
+  id: string;
   content: string;
   amount: number;
 }
@@ -7,7 +7,7 @@ interface PaymentHistory {
 export interface Payment {
   title: string;
   date: Date | undefined;
-  history: PaymentHistory[];
+  histories: PaymentHistory[];
   peopleCount: number;
   totalAmount: number;
 }

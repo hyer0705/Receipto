@@ -10,7 +10,7 @@ import InputPaymentInfo from './components/InputPaymentInfo';
 import InputPaymentHistory from './components/InputPaymentHistory';
 import type { Payment, PaymentAction } from './types/payment';
 
-function reducer(state: Payment, action: PaymentAction) {
+function reducer(state: Payment, action: PaymentAction): Payment {
   const { type, payment } = action;
   switch (type) {
     case 'CHANGED_TITLE':
@@ -23,11 +23,11 @@ function reducer(state: Payment, action: PaymentAction) {
         ...state,
         date: payment.date,
       };
-    // case 'ADD_PAYMENT_HISTORY':
-    //   return {
-    //     ...state,
-    //     history: [...state.history, { ...action.history }],
-    //   };
+    case 'ADD_PAYMENT_HISTORY':
+      return {
+        ...state,
+        histories: [...state.histories, payment.history],
+      };
     // case 'DELETE_PAYMENT_HISTORY':
     //   return {
     //     ...state,
@@ -51,7 +51,7 @@ function App() {
   const [payment, dispatch] = useReducer(reducer, {
     title: '',
     date: undefined,
-    history: [],
+    histories: [],
     peopleCount: 0,
     totalAmount: 0,
   });
@@ -68,7 +68,7 @@ function App() {
         date={payment.date}
         dispatch={dispatch}
       />
-      <InputPaymentHistory />
+      <InputPaymentHistory dispatch={dispatch} />
       <PaymentHistory />
       <InputPeopleCount />
       <PaymentResult />
