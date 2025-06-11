@@ -45,7 +45,7 @@ function PaymentResult({ histories, peopleCount }: PaymentResultProps) {
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <p className="text-xs text-gray-600 mb-1">1인당 금액</p>
               <p className="text-xl font-bold text-green-600">
-                {totalAmount / peopleCount}원
+                {peopleCount !== 0 ? totalAmount / peopleCount : 0}원
               </p>
             </div>
           </div>

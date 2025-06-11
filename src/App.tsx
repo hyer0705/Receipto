@@ -1,6 +1,14 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import Container from './components/Container';
 import Header from './components/Header';
 import InputPeopleCount from './components/InputPeopleCount';
@@ -53,9 +61,18 @@ function App() {
     peopleCount: 0,
   });
 
-  useEffect(() => {
-    console.log(payment);
-  }, [payment]);
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyButton = async () => {
+    try {
+      await navigator.clipboard.writeText('울라울라~');
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 1500);
+    } catch (error) {
+      console.error('클립보드 복사 실패.. ', error);
+    }
+  };
 
   return (
     <Container>
@@ -72,9 +89,37 @@ function App() {
         histories={payment.histories}
         peopleCount={payment.peopleCount}
       />
-      <Button className="w-full h-12 text-base font-medium" size="lg">
+      <Button
+        onClick={() => setIsShareOpen(true)}
+        className="w-full h-12 text-base font-medium"
+      >
         공유하기
       </Button>
+      <Dialog open={isShareOpen} onOpenChange={setIsShareOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">정산 결과 공유</DialogTitle>
+          </DialogHeader>
+          <article className="bg-gray-50 p-4 rounded-md max-h-[200px] overflow-y-auto whitespace-pre-wrap text-sm">
+            {'horay~~~'}
+          </article>
+          <article className="flex flex-col gap-3">
+            <Button
+              onClick={handleCopyButton}
+              className="w-full flex items-center justify-center gap-2 h-12"
+            >
+              {isCopied ? '복사 완료!' : '복사하기'}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setIsShareOpen(false)}
+              className="w-full"
+            >
+              닫기
+            </Button>
+          </article>
+        </DialogContent>
+      </Dialog>
       <footer className="text-center py-4">
         <p className="text-xs text-gray-500">모임 정산이 쉬워졌어요! 🎉</p>
       </footer>
