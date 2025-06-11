@@ -7,8 +7,16 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import type { PaymentAction } from '@/types/payment';
+import { useState } from 'react';
 
-function InputPeopleCount() {
+interface InputPeopleCountProps {
+  dispatch: React.ActionDispatch<[action: PaymentAction]>;
+}
+
+function InputPeopleCount({ dispatch }: InputPeopleCountProps) {
+  const [peoplCount, setPeopleCount] = useState(0);
+
   return (
     <Card>
       <CardHeader>
@@ -20,7 +28,21 @@ function InputPeopleCount() {
       <CardContent>
         <div className="space-y-2">
           <Label htmlFor="peopleCount">참여 인원</Label>
-          <Input id="peopleCount" type="number" placeholder="예: 2" min="1" />
+          <Input
+            id="peopleCount"
+            type="number"
+            placeholder="예: 2"
+            min="1"
+            value={peoplCount}
+            onChange={(e) => {
+              const newPeopleCount = Number(e.target.value);
+              dispatch({
+                type: 'CHANGED_PEOPLE_COUNT',
+                payment: { peopleCount: newPeopleCount },
+              });
+              setPeopleCount(newPeopleCount);
+            }}
+          />
         </div>
       </CardContent>
     </Card>

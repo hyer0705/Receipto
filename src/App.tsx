@@ -35,11 +35,11 @@ function reducer(state: Payment, action: PaymentAction): Payment {
           (history) => history.id !== payment.history.id,
         ),
       };
-    // case 'CHANGED_PEOPLE_COUNT':
-    //   return {
-    //     ...state,
-    //     peopleCount: action.peopleCount;
-    //   }
+    case 'CHANGED_PEOPLE_COUNT':
+      return {
+        ...state,
+        peopleCount: payment.peopleCount,
+      };
     default:
       return { ...state };
   }
@@ -68,7 +68,7 @@ function App() {
       />
       <InputPaymentHistory dispatch={dispatch} />
       <PaymentHistory histories={payment.histories} dispatch={dispatch} />
-      <InputPeopleCount />
+      <InputPeopleCount dispatch={dispatch} />
       <PaymentResult />
       <Button className="w-full h-12 text-base font-medium" size="lg">
         공유하기
