@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-function AddPaymentHistory() {
+function InputPaymentHistory() {
   return (
     <Card>
       <CardHeader>
@@ -22,12 +22,12 @@ function AddPaymentHistory() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <form className="space-y-4">
+        <div className="space-y-4">
           <Label htmlFor="title">결제 항목</Label>
           <Input id="title" placeholder="예: 점심, 저녁, 카페" />
           <Label htmlFor="amount">금액</Label>
           <Input id="amount" type="number" placeholder="0" />
-        </form>
+        </div>
       </CardContent>
       <CardFooter>
         <Button className="w-full">결제 내역 추가</Button>
@@ -36,4 +36,4 @@ function AddPaymentHistory() {
   );
 }
 
-export default AddPaymentHistory;
+export default InputPaymentHistory;

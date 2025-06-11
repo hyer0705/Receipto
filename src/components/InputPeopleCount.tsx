@@ -18,10 +18,10 @@ function InputPeopleCount() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <article className="space-y-2">
+        <div className="space-y-2">
           <Label htmlFor="peopleCount">참여 인원</Label>
           <Input id="peopleCount" type="number" placeholder="예: 2" min="1" />
-        </article>
+        </div>
       </CardContent>
     </Card>
   );
