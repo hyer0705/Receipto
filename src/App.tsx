@@ -28,15 +28,13 @@ function reducer(state: Payment, action: PaymentAction): Payment {
         ...state,
         histories: [...state.histories, payment.history],
       };
-    // case 'DELETE_PAYMENT_HISTORY':
-    //   return {
-    //     ...state,
-    //     history:
-    //       state.history.filter(
-    //         (currentHistory) => currentHistory.id !== action.history.id,
-    //       )
-    //     ,
-    //   };
+    case 'DELETE_PAYMENT_HISTORY':
+      return {
+        ...state,
+        histories: state.histories.filter(
+          (history) => history.id !== payment.history.id,
+        ),
+      };
     // case 'CHANGED_PEOPLE_COUNT':
     //   return {
     //     ...state,
@@ -69,7 +67,7 @@ function App() {
         dispatch={dispatch}
       />
       <InputPaymentHistory dispatch={dispatch} />
-      <PaymentHistory histories={payment.histories} />
+      <PaymentHistory histories={payment.histories} dispatch={dispatch} />
       <InputPeopleCount />
       <PaymentResult />
       <Button className="w-full h-12 text-base font-medium" size="lg">

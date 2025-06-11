@@ -6,13 +6,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import type { Payment } from '@/types/payment';
+import type { Payment, PaymentAction } from '@/types/payment';
 
 interface PaymentHistoryProps {
   histories: Payment['histories'];
+  dispatch: React.ActionDispatch<[action: PaymentAction]>;
 }
 
-function PaymentHistory({ histories }: PaymentHistoryProps) {
+function PaymentHistory({ histories, dispatch }: PaymentHistoryProps) {
   return (
     <Card>
       <CardHeader className="">
@@ -39,6 +40,12 @@ function PaymentHistory({ histories }: PaymentHistoryProps) {
                   variant="ghost"
                   size="sm"
                   className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
+                  onClick={() => {
+                    dispatch({
+                      type: 'DELETE_PAYMENT_HISTORY',
+                      payment: { history },
+                    });
+                  }}
                 >
                   Del
                 </Button>
