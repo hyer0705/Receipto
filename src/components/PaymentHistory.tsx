@@ -6,8 +6,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import type { Payment } from '@/types/payment';
 
-function PaymentHistory() {
+interface PaymentHistoryProps {
+  histories: Payment['histories'];
+}
+
+function PaymentHistory({ histories }: PaymentHistoryProps) {
   return (
     <Card>
       <CardHeader className="">
@@ -18,25 +23,28 @@ function PaymentHistory() {
       </CardHeader>
       <CardContent>
         <article className="space-y-3">
-          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-sm">
-                  카페(아메리카노+라떼+케이크)
-                </span>
+          {histories.map((history) => (
+            <div
+              key={history.id}
+              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+            >
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-sm">{history.content}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="font-bold text-sm">{history.amount}원</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
+                >
+                  Del
+                </Button>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="font-bold text-sm">13,000원</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
+          ))}
         </article>
       </CardContent>
     </Card>

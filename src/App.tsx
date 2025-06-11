@@ -69,7 +69,7 @@ function App() {
         dispatch={dispatch}
       />
       <InputPaymentHistory dispatch={dispatch} />
-      <PaymentHistory />
+      <PaymentHistory histories={payment.histories} />
       <InputPeopleCount />
       <PaymentResult />
       <Button className="w-full h-12 text-base font-medium" size="lg">
