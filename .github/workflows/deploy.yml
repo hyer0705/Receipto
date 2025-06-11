@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [develop/v0.0.1]
+  pull_request:
+    branches: [develop/v0.0.1]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 소스 체크아웃
+      - uses: actions/checkout@v3
+
+      # 2. Node.js 설치
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # 3. 패키지 의존성 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. 테스트(있다면)
+      # - name: Run tests
+      #   run: npm test
+
+      # 5. 빌드
+      - name: Build
+        run: npm run build
