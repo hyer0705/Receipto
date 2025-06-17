@@ -11,10 +11,10 @@ import Container from './components/Container';
 import Header from './components/Header';
 import InputPeopleCount from './components/InputPeopleCount';
 import PaymentHistory from './components/PaymentHistory';
-import PaymentResult from './components/PaymentResult';
+import ReceiptResult from './components/ReceiptResult';
 import InputPaymentHistory from './components/InputPaymentHistory';
-import type { Receipt, ReceiptAction } from './types/payment';
 import InputReceiptInfo from './components/InputReceiptInfo';
+import type { Receipt, ReceiptAction } from './types/payment';
 
 function reducer(state: Receipt, action: ReceiptAction): Receipt {
   const { type, receipt } = action;
@@ -132,7 +132,7 @@ function App() {
       <InputPaymentHistory dispatch={dispatch} />
       <PaymentHistory histories={receipt.histories} dispatch={dispatch} />
       <InputPeopleCount dispatch={dispatch} />
-      <PaymentResult
+      <ReceiptResult
         histories={receipt.histories}
         peopleCount={receipt.peopleCount}
       />

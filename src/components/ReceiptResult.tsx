@@ -8,12 +8,12 @@ import {
 import type { Receipt } from '@/types/payment';
 import { useEffect, useState } from 'react';
 
-interface PaymentResultProps {
+interface ReceiptResultProps {
   histories: Receipt['histories'];
   peopleCount: Receipt['peopleCount'];
 }
 
-function PaymentResult({ histories, peopleCount }: PaymentResultProps) {
+function ReceiptResult({ histories, peopleCount }: ReceiptResultProps) {
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
@@ -55,4 +55,4 @@ function PaymentResult({ histories, peopleCount }: PaymentResultProps) {
   );
 }
 
-export default PaymentResult;
+export default ReceiptResult;
