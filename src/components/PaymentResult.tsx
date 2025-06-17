@@ -5,12 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import type { Payment } from '@/types/payment';
+import type { Receipt } from '@/types/payment';
 import { useEffect, useState } from 'react';
 
 interface PaymentResultProps {
-  histories: Payment['histories'];
-  peopleCount: Payment['peopleCount'];
+  histories: Receipt['histories'];
+  peopleCount: Receipt['peopleCount'];
 }
 
 function PaymentResult({ histories, peopleCount }: PaymentResultProps) {
