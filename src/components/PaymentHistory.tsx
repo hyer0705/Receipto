@@ -6,11 +6,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import type { Payment, PaymentAction } from '@/types/payment';
+import type { Receipt, ReceiptAction } from '@/types/payment';
 
 interface PaymentHistoryProps {
-  histories: Payment['histories'];
-  dispatch: React.ActionDispatch<[action: PaymentAction]>;
+  histories: Receipt['histories'];
+  dispatch: React.ActionDispatch<[action: ReceiptAction]>;
 }
 
 function PaymentHistory({ histories, dispatch }: PaymentHistoryProps) {
@@ -43,7 +43,7 @@ function PaymentHistory({ histories, dispatch }: PaymentHistoryProps) {
                   onClick={() => {
                     dispatch({
                       type: 'DELETE_PAYMENT_HISTORY',
-                      payment: { history },
+                      receipt: { history },
                     });
                   }}
                 >
