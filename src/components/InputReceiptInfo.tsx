@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useState } from 'react';
-import type { PaymentAction } from '@/types/payment';
+import type { ReceiptAction } from '@/types/payment';
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -24,13 +24,13 @@ function formatDate(date: Date | undefined) {
   });
 }
 
-interface InputPaymentInfoProps {
+interface InputReceiptInfoProps {
   title: string;
   date: Date | undefined;
-  dispatch: React.ActionDispatch<[action: PaymentAction]>;
+  dispatch: React.ActionDispatch<[action: ReceiptAction]>;
 }
 
-function InputPaymentInfo({ title, date, dispatch }: InputPaymentInfoProps) {
+function InputReceiptInfo({ title, date, dispatch }: InputReceiptInfoProps) {
   const [open, setOpen] = useState(false);
 
   const [month, setMonth] = useState<Date | undefined>(date);
@@ -49,7 +49,7 @@ function InputPaymentInfo({ title, date, dispatch }: InputPaymentInfoProps) {
             onChange={(e) => {
               dispatch({
                 type: 'CHANGED_TITLE',
-                payment: { title: e.target.value },
+                receipt: { title: e.target.value },
               });
             }}
           />
@@ -65,7 +65,7 @@ function InputPaymentInfo({ title, date, dispatch }: InputPaymentInfoProps) {
 
                 dispatch({
                   type: 'CHANGED_DATE',
-                  payment: { date: currentDate },
+                  receipt: { date: currentDate },
                 });
                 setMonth(currentDate);
               }}
@@ -102,7 +102,7 @@ function InputPaymentInfo({ title, date, dispatch }: InputPaymentInfoProps) {
                   onSelect={(selectedDate) => {
                     dispatch({
                       type: 'CHANGED_DATE',
-                      payment: { date: selectedDate },
+                      receipt: { date: selectedDate },
                     });
                     setValue(formatDate(selectedDate));
                     setOpen(false);
@@ -117,4 +117,4 @@ function InputPaymentInfo({ title, date, dispatch }: InputPaymentInfoProps) {
   );
 }
 
-export default InputPaymentInfo;
+export default InputReceiptInfo;

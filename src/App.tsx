@@ -12,39 +12,39 @@ import Header from './components/Header';
 import InputPeopleCount from './components/InputPeopleCount';
 import PaymentHistory from './components/PaymentHistory';
 import PaymentResult from './components/PaymentResult';
-import InputPaymentInfo from './components/InputPaymentInfo';
 import InputPaymentHistory from './components/InputPaymentHistory';
-import type { Payment, PaymentAction } from './types/payment';
+import type { Receipt, ReceiptAction } from './types/payment';
+import InputReceiptInfo from './components/InputReceiptInfo';
 
-function reducer(state: Payment, action: PaymentAction): Payment {
-  const { type, payment } = action;
+function reducer(state: Receipt, action: ReceiptAction): Receipt {
+  const { type, receipt } = action;
   switch (type) {
     case 'CHANGED_TITLE':
       return {
         ...state,
-        title: payment.title,
+        title: receipt.title,
       };
     case 'CHANGED_DATE':
       return {
         ...state,
-        date: payment.date,
+        date: receipt.date,
       };
     case 'ADD_PAYMENT_HISTORY':
       return {
         ...state,
-        histories: [...state.histories, payment.history],
+        histories: [...state.histories, receipt.history],
       };
     case 'DELETE_PAYMENT_HISTORY':
       return {
         ...state,
         histories: state.histories.filter(
-          (history) => history.id !== payment.history.id,
+          (history) => history.id !== receipt.history.id,
         ),
       };
     case 'CHANGED_PEOPLE_COUNT':
       return {
         ...state,
-        peopleCount: payment.peopleCount,
+        peopleCount: receipt.peopleCount,
       };
     default:
       return { ...state };
@@ -52,7 +52,7 @@ function reducer(state: Payment, action: PaymentAction): Payment {
 }
 
 function App() {
-  const [payment, dispatch] = useReducer(reducer, {
+  const [receipt, dispatch] = useReducer(reducer, {
     title: '',
     date: undefined,
     histories: [],
@@ -80,17 +80,18 @@ function App() {
     const WIDTH = 25;
     const LINE = '='.repeat(WIDTH);
 
-    const title = `[💳 ${payment.title}]\n`;
-    const items = payment.histories.map((history) => {
+    const title = `[💳 ${receipt.title}]\n`;
+    const items = receipt.histories.map((history) => {
       const priceText = `${history.amount.toLocaleString()}원`;
       const contentLen = getDisplayLength(history.content);
       const priceLen = getDisplayLength(priceText);
 
-      const spaces = WIDTH - contentLen - priceLen;
+      const spaces =
+        contentLen + priceLen < WIDTH ? WIDTH - contentLen - priceLen : 0;
 
       return `${history.content}: ${' '.repeat(spaces)}${priceText}`;
     });
-    const totalPrice = payment.histories.reduce(
+    const totalPrice = receipt.histories.reduce(
       (acc, curr) => acc + curr.amount,
       0,
     );
@@ -100,19 +101,19 @@ function App() {
       WIDTH -
         getDisplayLength('1/N 금액: ') -
         getDisplayLength(
-          `${Math.ceil(totalPrice / payment.peopleCount).toLocaleString()}원`,
+          `${Math.ceil(totalPrice / receipt.peopleCount).toLocaleString()}원`,
         ),
-    )}${Math.ceil(totalPrice / payment.peopleCount).toLocaleString()}원`;
+    )}${Math.ceil(totalPrice / receipt.peopleCount).toLocaleString()}원`;
 
     return [title, ...items, LINE, totalPriceStr, pricePerPerson].join('\n');
   };
 
   const handleCopyButton = async () => {
     try {
-      const receipt = createReceipt();
+      const created = createReceipt();
       console.log(receipt);
 
-      await navigator.clipboard.writeText(receipt);
+      await navigator.clipboard.writeText(created);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 1500);
     } catch (error) {
@@ -123,17 +124,17 @@ function App() {
   return (
     <Container>
       <Header />
-      <InputPaymentInfo
-        title={payment.title}
-        date={payment.date}
+      <InputReceiptInfo
+        title={receipt.title}
+        date={receipt.date}
         dispatch={dispatch}
       />
       <InputPaymentHistory dispatch={dispatch} />
-      <PaymentHistory histories={payment.histories} dispatch={dispatch} />
+      <PaymentHistory histories={receipt.histories} dispatch={dispatch} />
       <InputPeopleCount dispatch={dispatch} />
       <PaymentResult
-        histories={payment.histories}
-        peopleCount={payment.peopleCount}
+        histories={receipt.histories}
+        peopleCount={receipt.peopleCount}
       />
       <Button
         onClick={() => setIsShareOpen(true)}

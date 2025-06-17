@@ -7,15 +7,15 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import type { PaymentAction } from '@/types/payment';
 import { useState } from 'react';
+import type { ReceiptAction } from '@/types/payment';
 
 interface InputPeopleCountProps {
-  dispatch: React.ActionDispatch<[action: PaymentAction]>;
+  dispatch: React.ActionDispatch<[action: ReceiptAction]>;
 }
 
 function InputPeopleCount({ dispatch }: InputPeopleCountProps) {
-  const [peoplCount, setPeopleCount] = useState(0);
+  const [peoplCount, setPeopleCount] = useState('');
 
   return (
     <Card>
@@ -35,10 +35,10 @@ function InputPeopleCount({ dispatch }: InputPeopleCountProps) {
             min="1"
             value={peoplCount}
             onChange={(e) => {
-              const newPeopleCount = Number(e.target.value);
+              const newPeopleCount = e.target.value;
               dispatch({
                 type: 'CHANGED_PEOPLE_COUNT',
-                payment: { peopleCount: newPeopleCount },
+                receipt: { peopleCount: Number(newPeopleCount) },
               });
               setPeopleCount(newPeopleCount);
             }}

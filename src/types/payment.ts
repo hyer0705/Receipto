@@ -4,32 +4,32 @@ interface PaymentHistory {
   amount: number;
 }
 
-export interface Payment {
+export interface Receipt {
   title: string;
   date: Date | undefined;
   histories: PaymentHistory[];
   peopleCount: number;
 }
 
-export type PaymentAction =
+export type ReceiptAction =
   | {
       type: 'CHANGED_TITLE';
-      payment: { title: string };
+      receipt: { title: string };
     }
-  | { type: 'CHANGED_DATE'; payment: { date: Date | undefined } }
+  | { type: 'CHANGED_DATE'; receipt: { date: Date | undefined } }
   | {
       type: 'ADD_PAYMENT_HISTORY';
-      payment: { history: PaymentHistory };
+      receipt: { history: PaymentHistory };
     }
   | {
       type: 'DELETE_PAYMENT_HISTORY';
-      payment: {
+      receipt: {
         history: PaymentHistory;
       };
     }
   | {
       type: 'CHANGED_PEOPLE_COUNT';
-      payment: {
+      receipt: {
         peopleCount: number;
       };
     };
