@@ -111,7 +111,6 @@ function App() {
   const handleCopyButton = async () => {
     try {
       const created = createReceipt();
-      console.log(receipt);
 
       await navigator.clipboard.writeText(created);
       setIsCopied(true);
