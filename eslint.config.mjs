@@ -96,6 +96,14 @@ const myCustomConfig = [
     },
   },
   {
+    name: 'lib-folder-config',
+    files: ['**/lib/**/*.ts', '**/lib/**/*.tsx'],
+    rules: {
+      'import/prefer-default-export': 'off',
+      'import-x/prefer-default-export': 'off',
+    },
+  },
+  {
     name: 'import-plugin',
     plugins: {
       import: importPlugin,
