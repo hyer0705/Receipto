@@ -1,4 +1,4 @@
-interface PaymentHistory {
+export interface PaymentHistory {
   id: string;
   content: string;
   amount: number;

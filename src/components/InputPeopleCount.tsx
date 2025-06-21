@@ -8,13 +8,12 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import type { ReceiptAction } from '@/types/payment';
 
 interface InputPeopleCountProps {
-  dispatch: React.ActionDispatch<[action: ReceiptAction]>;
+  changePeopleCount: (newPeopleCount: number) => void;
 }
 
-function InputPeopleCount({ dispatch }: InputPeopleCountProps) {
+function InputPeopleCount({ changePeopleCount }: InputPeopleCountProps) {
   const [peoplCount, setPeopleCount] = useState('');
 
   return (
@@ -35,12 +34,11 @@ function InputPeopleCount({ dispatch }: InputPeopleCountProps) {
             min="1"
             value={peoplCount}
             onChange={(e) => {
-              const newPeopleCount = e.target.value;
-              dispatch({
-                type: 'CHANGED_PEOPLE_COUNT',
-                receipt: { peopleCount: Number(newPeopleCount) },
-              });
-              setPeopleCount(newPeopleCount);
+              const newPeopleCount = Number(e.target.value);
+
+              changePeopleCount(newPeopleCount);
+
+              setPeopleCount(newPeopleCount.toString());
             }}
           />
         </div>
