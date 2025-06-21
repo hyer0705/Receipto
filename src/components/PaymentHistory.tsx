@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import type { PaymentHistory, Receipt } from '@/types/payment';
+import type { PaymentHistory, Receipt } from '@/types/receipt';
 
 interface PaymentHistoryListProps {
   histories: Receipt['histories'];

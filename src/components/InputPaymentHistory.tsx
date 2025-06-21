@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import type { PaymentHistory } from '@/types/payment';
+import type { PaymentHistory } from '@/types/receipt';
 
 interface InputPaymentHistoryProps {
   addPaymentHistory: (newHistory: PaymentHistory) => void;

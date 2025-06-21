@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import type { PaymentHistory, Receipt, ReceiptAction } from '../types/payment';
+import type { PaymentHistory, Receipt, ReceiptAction } from '@/types/receipt';
 
 function reducer(state: Receipt, action: ReceiptAction): Receipt {
   const { type, receipt } = action;
