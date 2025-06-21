@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,54 +10,21 @@ import {
 import Container from './components/Container';
 import Header from './components/Header';
 import InputPeopleCount from './components/InputPeopleCount';
-import PaymentHistory from './components/PaymentHistory';
 import ReceiptResult from './components/ReceiptResult';
 import InputPaymentHistory from './components/InputPaymentHistory';
 import InputReceiptInfo from './components/InputReceiptInfo';
-import type { Receipt, ReceiptAction } from './types/payment';
-
-function reducer(state: Receipt, action: ReceiptAction): Receipt {
-  const { type, receipt } = action;
-  switch (type) {
-    case 'CHANGED_TITLE':
-      return {
-        ...state,
-        title: receipt.title,
-      };
-    case 'CHANGED_DATE':
-      return {
-        ...state,
-        date: receipt.date,
-      };
-    case 'ADD_PAYMENT_HISTORY':
-      return {
-        ...state,
-        histories: [...state.histories, receipt.history],
-      };
-    case 'DELETE_PAYMENT_HISTORY':
-      return {
-        ...state,
-        histories: state.histories.filter(
-          (history) => history.id !== receipt.history.id,
-        ),
-      };
-    case 'CHANGED_PEOPLE_COUNT':
-      return {
-        ...state,
-        peopleCount: receipt.peopleCount,
-      };
-    default:
-      return { ...state };
-  }
-}
+import { useReceipt } from './hooks/useReceipt';
+import PaymentHistoryList from './components/PaymentHistory';
 
 function App() {
-  const [receipt, dispatch] = useReducer(reducer, {
-    title: '',
-    date: undefined,
-    histories: [],
-    peopleCount: 0,
-  });
+  const {
+    receipt,
+    changeTitle,
+    changeDate,
+    addPaymentHistory,
+    deletePaymentHistory,
+    changePeopleCount,
+  } = useReceipt();
 
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -126,11 +93,15 @@ function App() {
       <InputReceiptInfo
         title={receipt.title}
         date={receipt.date}
-        dispatch={dispatch}
+        changeTitle={changeTitle}
+        changeDate={changeDate}
       />
-      <InputPaymentHistory dispatch={dispatch} />
-      <PaymentHistory histories={receipt.histories} dispatch={dispatch} />
-      <InputPeopleCount dispatch={dispatch} />
+      <InputPaymentHistory addPaymentHistory={addPaymentHistory} />
+      <PaymentHistoryList
+        histories={receipt.histories}
+        deletePaymentHistory={deletePaymentHistory}
+      />
+      <InputPeopleCount changePeopleCount={changePeopleCount} />
       <ReceiptResult
         histories={receipt.histories}
         peopleCount={receipt.peopleCount}

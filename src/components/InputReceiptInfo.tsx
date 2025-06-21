@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useState } from 'react';
-import type { ReceiptAction } from '@/types/payment';
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -27,10 +26,16 @@ function formatDate(date: Date | undefined) {
 interface InputReceiptInfoProps {
   title: string;
   date: Date | undefined;
-  dispatch: React.ActionDispatch<[action: ReceiptAction]>;
+  changeTitle: (newTitle: string) => void;
+  changeDate: (newDate: Date | undefined) => void;
 }
 
-function InputReceiptInfo({ title, date, dispatch }: InputReceiptInfoProps) {
+function InputReceiptInfo({
+  title,
+  date,
+  changeTitle,
+  changeDate,
+}: InputReceiptInfoProps) {
   const [open, setOpen] = useState(false);
 
   const [month, setMonth] = useState<Date | undefined>(date);
@@ -47,10 +52,9 @@ function InputReceiptInfo({ title, date, dispatch }: InputReceiptInfoProps) {
             type="text"
             value={title}
             onChange={(e) => {
-              dispatch({
-                type: 'CHANGED_TITLE',
-                receipt: { title: e.target.value },
-              });
+              const newTitle = e.target.value;
+
+              changeTitle(newTitle);
             }}
           />
           <Label htmlFor="date">날짜</Label>
@@ -63,10 +67,8 @@ function InputReceiptInfo({ title, date, dispatch }: InputReceiptInfoProps) {
                 const currentDate = new Date(e.target.value);
                 setValue(e.target.value);
 
-                dispatch({
-                  type: 'CHANGED_DATE',
-                  receipt: { date: currentDate },
-                });
+                changeDate(currentDate);
+
                 setMonth(currentDate);
               }}
               onKeyDown={(e) => {
@@ -100,10 +102,8 @@ function InputReceiptInfo({ title, date, dispatch }: InputReceiptInfoProps) {
                   month={month}
                   onMonthChange={setMonth}
                   onSelect={(selectedDate) => {
-                    dispatch({
-                      type: 'CHANGED_DATE',
-                      receipt: { date: selectedDate },
-                    });
+                    changeDate(selectedDate);
+
                     setValue(formatDate(selectedDate));
                     setOpen(false);
                   }}

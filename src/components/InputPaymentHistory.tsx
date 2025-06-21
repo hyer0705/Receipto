@@ -10,13 +10,13 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import type { ReceiptAction } from '@/types/payment';
+import type { PaymentHistory } from '@/types/payment';
 
 interface InputPaymentHistoryProps {
-  dispatch: React.ActionDispatch<[action: ReceiptAction]>;
+  addPaymentHistory: (newHistory: PaymentHistory) => void;
 }
 
-function InputPaymentHistory({ dispatch }: InputPaymentHistoryProps) {
+function InputPaymentHistory({ addPaymentHistory }: InputPaymentHistoryProps) {
   const [history, setHistory] = useState<{ content: string; amount: string }>({
     content: '',
     amount: '',
@@ -62,16 +62,14 @@ function InputPaymentHistory({ dispatch }: InputPaymentHistoryProps) {
         <Button
           onClick={() => {
             const { amount, content } = history;
-            dispatch({
-              type: 'ADD_PAYMENT_HISTORY',
-              receipt: {
-                history: {
-                  id: Date.now().toString(),
-                  content,
-                  amount: Number(amount),
-                },
-              },
-            });
+
+            const newHistory: PaymentHistory = {
+              id: Date.now().toString(),
+              content,
+              amount: Number(amount),
+            };
+            addPaymentHistory(newHistory);
+
             setHistory({ amount: '', content: '' });
           }}
           className="w-full"
