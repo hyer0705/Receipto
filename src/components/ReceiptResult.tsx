@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import type { Receipt } from '@/types/payment';
+import type { Receipt } from '@/types/receipt';
 import { useEffect, useState } from 'react';
 
 interface ReceiptResultProps {
