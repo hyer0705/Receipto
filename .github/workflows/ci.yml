@@ -2,9 +2,9 @@ name: Receipto Bun CI
 
 on:
   push:
-    branches: [develop/v0.0.1]
+    branches: [master]
   pull_request:
-    branches: [develop/v0.0.1]
+    branches: [master]
 
 jobs:
   build:
