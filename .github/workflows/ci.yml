@@ -1,0 +1,40 @@
+name: Receipto Bun CI
+
+on:
+  push:
+    branches: [develop/v0.0.1]
+  pull_request:
+    branches: [develop/v0.0.1]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 소스 체크아웃
+      - uses: actions/checkout@v4
+
+      # 2. bun 설치 (공식 curl 스크립트 사용)
+      - name: Install bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+      # 3. bun 환경 확인 (버전 체크)
+      - name: Check bun version
+        run: bun --version
+
+      # 4. 패키지 의존성 설치 (bun)
+      - name: Install dependencies
+        run: bun install
+
+      # 5. 코드 품질 체크
+      - name: Run linter
+        run: bun run lint
+
+      - name: Check code formatting
+        run: bun run format:check
+
+      # 6. 빌드
+      - name: Build
+        run: bun run build
